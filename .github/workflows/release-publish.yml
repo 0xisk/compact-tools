@@ -1,0 +1,85 @@
+name: Publish Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  publish:
+    name: Publish merged release
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
+    runs-on: ubuntu-24.04
+    environment: compact-npm-prod # Final approval gate before npm publish
+
+    permissions:
+      contents: write   # push the version tag
+      id-token: write   # npm provenance
+
+    steps:
+      - name: Get github app token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3.0.0
+        id: gh-app-token
+        with:
+          app-id: ${{ vars.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+      - name: Check out merge commit
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          token: ${{ steps.gh-app-token.outputs.token }}
+
+      - name: Detect released package
+        id: pkg
+        env:
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          mapfile -t CHANGED < <(git diff --name-only "$MERGE_SHA^" "$MERGE_SHA" -- 'packages/*/package.json')
+          COUNT=${#CHANGED[@]}
+          if [[ "$COUNT" -ne 1 ]]; then
+            echo "::error::expected exactly one packages/*/package.json change, found $COUNT"
+            printf '%s\n' "${CHANGED[@]}" >&2
+            exit 1
+          fi
+          DIR=$(echo "${CHANGED[0]}" | awk -F/ '{print $2}')
+          case "$DIR" in
+            builder) PKG="compact-builder" ;;
+            cli) PKG="compact-cli" ;;
+            simulator) PKG="compact-simulator" ;;
+            *)
+              echo "::error::unknown package directory: $DIR"
+              exit 1
+              ;;
+          esac
+          VERSION=$(node -p "require('./packages/$DIR/package.json').version")
+          echo "dir=$DIR" >> $GITHUB_OUTPUT
+          echo "name=$PKG" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          {
+            echo "### Publishing"
+            echo "- Package: $PKG"
+            echo "- Version: $VERSION"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Build package
+        run: yarn build --filter=@openzeppelin/${{ steps.pkg.outputs.name }}
+
+      - name: Create and push tag
+        env:
+          TAG: ${{ steps.pkg.outputs.name }}/v${{ steps.pkg.outputs.version }}
+        run: |
+          git tag "$TAG"
+          git push origin "$TAG"
+
+      - name: Publish to npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn config set npmAuthToken "$NPM_TOKEN"
+          cd packages/${{ steps.pkg.outputs.dir }}
+          yarn npm publish --access public --provenance
