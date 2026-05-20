@@ -5,14 +5,14 @@ import {
   DirectoryNotFoundError,
   isPromisifiedChildProcessError,
   type PromisifiedChildProcessError,
-} from '@openzeppelin/compact-builder';
+} from '@oz-test-pkgs/compact-builder';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock the library so we can drive the CLI in isolation.
-vi.mock('@openzeppelin/compact-builder', async () => {
+vi.mock('@oz-test-pkgs/compact-builder', async () => {
   const actual = await vi.importActual<
-    typeof import('@openzeppelin/compact-builder')
-  >('@openzeppelin/compact-builder');
+    typeof import('@oz-test-pkgs/compact-builder')
+  >('@oz-test-pkgs/compact-builder');
   return {
     ...actual,
     CompactCompiler: {

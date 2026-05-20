@@ -1,6 +1,6 @@
-# @openzeppelin/compact-cli
+# @oz-test-pkgs/compact-cli
 
-CLI wrapper around [`@openzeppelin/compact-builder`](../builder).
+CLI wrapper around [`@oz-test-pkgs/compact-builder`](../builder).
 Provides the `compact-compiler` and `compact-builder` binaries for use in
 `package.json` scripts. Contains no programmatic API of its own. If you want
 to call the compiler/builder from TypeScript, use the library package directly.
@@ -8,7 +8,7 @@ to call the compiler/builder from TypeScript, use the library package directly.
 ## Install
 
 ```bash
-yarn add --dev @openzeppelin/compact-cli
+yarn add --dev @oz-test-pkgs/compact-cli
 ```
 
 ## Use
@@ -50,7 +50,7 @@ options:
 | `--clean-dist` | builder | `rm -rf dist` before building. |
 | `--copy <path>` | builder | Copy an extra file into `dist/` (repeatable; e.g. `package.json`, `../README.md`). |
 
-See [`@openzeppelin/compact-builder`](../builder) for the full
+See [`@oz-test-pkgs/compact-builder`](../builder) for the full
 documentation, programmatic API, and behavioural details.
 
 ## Requirements
@@ -65,8 +65,8 @@ Compactc version: 0.29.0
 
 ## See also
 
-- [`@openzeppelin/compact-builder`](https://www.npmjs.com/package/@openzeppelin/compact-builder) — programmatic library backing this CLI
-- [`@openzeppelin/compact-simulator`](https://www.npmjs.com/package/@openzeppelin/compact-simulator) — simulator for testing Compact contracts
+- [`@oz-test-pkgs/compact-builder`](https://www.npmjs.com/package/@oz-test-pkgs/compact-builder) — programmatic library backing this CLI
+- [`@oz-test-pkgs/compact-simulator`](https://www.npmjs.com/package/@oz-test-pkgs/compact-simulator) — simulator for testing Compact contracts
 
 ## License
 

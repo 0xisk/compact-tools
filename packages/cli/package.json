@@ -41,7 +41,7 @@
     "vitest": "^4.0.15"
   },
   "dependencies": {
-    "@openzeppelin/compact-builder": "workspace:^",
+    "@oz-test-pkgs/compact-builder": "workspace:^",
     "chalk": "^5.6.2",
     "ora": "^9.0.0"
   }

@@ -4,7 +4,7 @@ import {
   CompactCompiler,
   type CompilationError,
   isPromisifiedChildProcessError,
-} from '@openzeppelin/compact-builder';
+} from '@oz-test-pkgs/compact-builder';
 import chalk from 'chalk';
 import ora, { type Ora } from 'ora';
 

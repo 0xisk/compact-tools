@@ -20,13 +20,13 @@ Pick the package that matches what you need:
 
 ```bash
 # Programmatic library — call the compiler/builder from TypeScript
-yarn add --dev @openzeppelin/compact-builder
+yarn add --dev @oz-test-pkgs/compact-builder
 
 # CLI bins (compact-compiler, compact-builder) for use in package.json scripts
-yarn add --dev @openzeppelin/compact-cli
+yarn add --dev @oz-test-pkgs/compact-cli
 
 # Simulator — test Compact contracts locally
-yarn add --dev @openzeppelin/compact-simulator
+yarn add --dev @oz-test-pkgs/compact-simulator
 ```
 
 `compact-cli` depends transitively on `compact-builder`, so installing the CLI
@@ -38,8 +38,8 @@ yarn compact-builder --help
 ```
 
 ```ts
-import { CompactCompiler, CompactBuilder } from '@openzeppelin/compact-builder';
-import { createSimulator } from '@openzeppelin/compact-simulator';
+import { CompactCompiler, CompactBuilder } from '@oz-test-pkgs/compact-builder';
+import { createSimulator } from '@oz-test-pkgs/compact-simulator';
 ```
 
 ## Requirements

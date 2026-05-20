@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { CompactBuilder } from '@openzeppelin/compact-builder';
+import { CompactBuilder } from '@oz-test-pkgs/compact-builder';
 import chalk from 'chalk';
 import ora from 'ora';
 
