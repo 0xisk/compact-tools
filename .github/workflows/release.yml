@@ -63,10 +63,10 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run tests for package
-        run: yarn test --filter=@openzeppelin/${{ inputs.package }}
+        run: yarn test --filter=@oz-test-pkgs/${{ inputs.package }}
 
       - name: Build package
-        run: yarn build --filter=@openzeppelin/${{ inputs.package }}
+        run: yarn build --filter=@oz-test-pkgs/${{ inputs.package }}
 
       - name: Bump version
         id: version
