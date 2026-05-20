@@ -67,7 +67,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Build package
-        run: yarn build --filter=@openzeppelin/${{ steps.pkg.outputs.name }}
+        run: yarn build --filter=@oz-test-pkgs/${{ steps.pkg.outputs.name }}
 
       - name: Create and push tag
         env:

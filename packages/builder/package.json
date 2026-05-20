@@ -1,5 +1,5 @@
 {
-  "name": "@openzeppelin/compact-builder",
+  "name": "@oz-test-pkgs/compact-builder",
   "description": "Programmatic library for compiling and building Compact smart contracts",
   "version": "0.0.1",
   "keywords": [
