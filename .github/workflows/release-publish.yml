@@ -73,8 +73,12 @@ jobs:
         env:
           TAG: ${{ steps.pkg.outputs.name }}/v${{ steps.pkg.outputs.version }}
         run: |
-          git tag "$TAG"
-          git push origin "$TAG"
+          if git ls-remote --tags --exit-code origin "refs/tags/$TAG" >/dev/null; then
+            echo "tag $TAG already on origin, leaving it in place"
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
 
       - name: Publish to npm
         env:
